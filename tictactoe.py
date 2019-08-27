@@ -105,13 +105,13 @@ class TicTacToe:
     def makeAMove(self):
         if self.moveNumber > 2:
             move = self.isWinning(1)
-            if move:
+            if move is not None:
                 return move
 
         move = self.precaution()
 
-        if not move:
-            move = self.gameplan()
+        if move is None:
+            move = self.gameOn()
 
         return move
 
@@ -175,7 +175,7 @@ class TicTacToe:
         if not self.moves[6] and (self.moves[2] == self.moves[4] == letter):
             return 6
 
-        return None
+        return
 
     def precaution(self):
         if self.moveNumber == 0:
@@ -183,7 +183,7 @@ class TicTacToe:
 
         if self.moveNumber > 2:
             move = self.isWinning(0)
-            if move:
+            if move is not None:
                 return move
 
         if self.moveNumber == 1:
@@ -193,15 +193,23 @@ class TicTacToe:
                 return random.choice([0, 2, 6, 8])
 
         if self.moveNumber == 3:
-            return random.choice([1, 5, 7, 3])
+            if self.playerLastMove in (0, 2, 6, 8):
+                if self.playerLastMove == 0:
+                    return random.choice([1, 3])
+                if self.playerLastMove == 2:
+                    return random.choice([1, 5])
+                if self.playerLastMove == 6:
+                    return random.choice([3, 7])
+                if self.playerLastMove == 8:
+                    return random.choice([5, 7])
 
-        return False
+        return
 
-    def gameplan(self):
+    def gameOn(self):
         possibleMoves = [1] * (9 - self.moveNumber)
         n = 0
         for x in range(0, 9):
-            if not self.moves[x]:
+            if self.moves[x] is None:
                 possibleMoves[n] = x
                 n += 1
         return random.choice(possibleMoves)
