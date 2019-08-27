@@ -67,9 +67,21 @@ class TicTacToeGUI:
         self.whoPlaysWhatFrame.destroy()
         self.tictactoe.whoPlaysWhat(1)
 
-    def displayGameBoard(
-        self, moves, isGameOver=False, computerWon=False, playerWon=False
-    ):
+    def displayGameBoard(self):
+
+        self.movesLetters = [
+            StringVar(),
+            StringVar(),
+            StringVar(),
+            StringVar(),
+            StringVar(),
+            StringVar(),
+            StringVar(),
+            StringVar(),
+            StringVar(),
+        ]
+        self.subtextString = StringVar()
+
         self.movesLabels = [None, None, None, None, None, None, None, None, None]
 
         self.gameBoardFrame = Frame(self.root)
@@ -82,34 +94,50 @@ class TicTacToeGUI:
         for x in range(0, 9):
             self.movesLabels[x] = Label(
                 self.gameBoardFrame,
-                text=moves[x],
+                textvariable=self.movesLetters[x],
                 font="bold 16",
                 bg="#DDDDDD",
                 width=4,
                 height=2,
             )
             self.movesLabels[x].grid(row=(x // 3) + 1, column=x % 3, padx=4, pady=3)
-            if moves[x] == " ":
-                self.movesLabels[x].bind("<Button-1>", self.userMove)
+            self.movesLabels[x].bind("<Button-1>", self.playerMove)
 
-        if isGameOver:
-            if playerWon:
-                message = "Game Over! You Win! Well Played!"
-            elif computerWon:
-                message = "Game Over! You Lose!"
-            else:
-                message = "Game Over! Draw! Well Played!"
-        else:
-            message = "Game in Progress..."
+        self.subtextLabel = Label(
+            self.gameBoardFrame, textvariable=self.subtextString
+        ).grid(row=4, columnspan=3)
 
-        self.subtextLabel = Label(self.gameBoardFrame, text=message).grid(
-            row=4, columnspan=3
-        )
+        self.subtextString.set("Game in Progress...")
 
         return
 
-    def userMove(self, event):
+    def displayMove(self, move, letter, isGameOver=False, whoWon=0):
+        self.movesLetters[move].set(letter)
+
+        if isGameOver:
+            if whoWon == 2:
+                self.subtextString.set("Game Over! You Win! Well Played!")
+            elif whoWon == 1:
+                self.subtextString.set("Game Over! You Lose!")
+            else:
+                self.subtextString.set("Game Over! Draw! Well Played!")
+
+            self.newGameButtonFrame = Frame(self.gameBoardFrame)
+            self.newGameButton = Button(
+                self.newGameButtonFrame, text="New Game", command=self.newGame
+            ).grid(row=0)
+            self.newGameButtonFrame.grid(row=5, columnspan=3)
+
+        return
+
+    def newGame(self):
+        self.gameBoardFrame.grid_forget()
+        self.gameBoardFrame.destroy()
+        self.tictactoe.newGame()
+        return
+
+    def playerMove(self, event):
         for x in range(0, 9):
             if event.widget == self.movesLabels[x]:
-                self.tictactoe.userMove(x)
+                self.tictactoe.playerMove(x)
         return
