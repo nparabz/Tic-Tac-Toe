@@ -106,7 +106,7 @@ class TicTacToe:
 
     def makeAMove(self):
         if self.moveNumber > 2:
-            move = self.isWinning(1)
+            move = self.isComputerWinning()
             if move is not None:
                 return move
 
@@ -116,6 +116,12 @@ class TicTacToe:
             move = self.gameOn()
 
         return move
+
+    def isComputerWinning(self):
+        return self.isWinning(1)
+
+    def isPlayerWinning(self):
+        return self.isWinning(0)
 
     def isWinning(self, who):
         if who == 0:
@@ -184,7 +190,7 @@ class TicTacToe:
             move = random.choice([0, 2, 6, 8, 4])
 
         if self.moveNumber > 2:
-            move = self.isWinning(0)
+            move = self.isPlayerWinning()
             if move is not None:
                 return move
 
