@@ -187,12 +187,27 @@ class TicTacToe:
                 return move
 
         if self.moveNumber == 1:
-            if self.playerLastMove in (0, 2, 6, 8):
-                return 4
-            elif self.playerLastMove == 4:
+            if self.playerLastMove == 4:
                 return random.choice([0, 2, 6, 8])
+            else:
+                return 4
 
         if self.moveNumber == 3:
+            if self.moves[4] == self.playerLetter and self.playerLastMove in (
+                0,
+                2,
+                6,
+                8,
+            ):
+                if self.playerLastMove == 0:
+                    return random.choice([2, 6])
+                if self.playerLastMove == 2:
+                    return random.choice([0, 8])
+                if self.playerLastMove == 6:
+                    return random.choice([0, 8])
+                if self.playerLastMove == 8:
+                    return random.choice([2, 6])
+
             if self.playerLastMove in (0, 2, 6, 8):
                 if self.playerLastMove == 0:
                     return random.choice([1, 3])
