@@ -38,9 +38,9 @@ class TicTacToe:
             self.gui.displayMove(move, self.computerLetter)
 
     def playerMove(self, playerMove):
-        if self.moves[playerMove]:
-            return
         if self.gameOver:
+            return
+        if self.moves[playerMove]:
             return
         self.playerLastMove = playerMove
         self.moves[playerMove] = self.playerLetter
