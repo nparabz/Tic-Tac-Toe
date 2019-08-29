@@ -31,7 +31,7 @@ class TicTacToe:
 
         self._gui.display_game_board()
         if self._plays_first == 1:
-            move = self.make_a_move()
+            move = self._make_a_move()
             self._moves[move] = self._computer_letter
             self._move_number += 1
             self._gui.display_move(move, self._computer_letter)
@@ -46,7 +46,7 @@ class TicTacToe:
         self._move_number += 1
         if not self._is_game_over(player_move, 0):
             self._gui.display_move(player_move, self._player_letter)
-            computerMove = self.make_a_move()
+            computerMove = self._make_a_move()
             self._moves[computerMove] = self._computer_letter
             self._move_number += 1
             if not self._is_game_over(computerMove, 1):
@@ -103,7 +103,7 @@ class TicTacToe:
 
         return False
 
-    def make_a_move(self):
+    def _make_a_move(self):
         if self._move_number > 2:
             move = self._is_computer_winning()
             if move is not None:
