@@ -188,6 +188,7 @@ class TicTacToe:
     def precaution(self):
         if self.moveNumber == 0:
             move = random.choice([0, 2, 6, 8, 4])
+            return move
 
         if self.moveNumber > 2:
             move = self.isPlayerWinning()
