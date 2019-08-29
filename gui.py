@@ -6,70 +6,72 @@ class TicTacToeGUI:
         self.tictactoe = tictactoe
         self.root = root
 
-    def displayWhoPlaysFirstScreen(self):
-        self.whoPlaysFirstFrame = Frame(self.root)
-        self.whoPlaysFirstFrame.grid(row=0)
+    def display_who_plays_first_screen(self):
+        self._who_plays_first_frame = Frame(self.root)
+        self._who_plays_first_frame.grid(row=0)
 
-        Label(self.whoPlaysFirstFrame, text="Tic-Tac-Toe", font="bold 24").grid(
-            row=0, columnspan=2
-        )
+        Label(
+            self._who_plays_first_frame, text="Tic-Tac-Toe", font="bold 24"
+        ).grid(row=0, columnspan=2)
 
-        Label(self.whoPlaysFirstFrame, text="Do you want to play first?").grid(
-            row=1, columnspan=2
-        )
-
-        Button(self.whoPlaysFirstFrame, text="Yes", command=self.playerPlaysFirst).grid(
-            row=2, column=0
-        )
+        Label(
+            self._who_plays_first_frame, text="Do you want to play first?"
+        ).grid(row=1, columnspan=2)
 
         Button(
-            self.whoPlaysFirstFrame,
+            self._who_plays_first_frame,
+            text="Yes",
+            command=self._player_plays_first,
+        ).grid(row=2, column=0)
+
+        Button(
+            self._who_plays_first_frame,
             text="No, let computer play first",
-            command=self.computerPlaysFirst,
+            command=self._computer_plays_first,
         ).grid(row=2, column=1)
 
-    def playerPlaysFirst(self):
-        self.whoPlaysFirstFrame.grid_forget()
-        self.whoPlaysFirstFrame.destroy()
-        self.tictactoe.whoPlaysFirst(0)
+    def _player_plays_first(self):
+        self._who_plays_first_frame.grid_forget()
+        self._who_plays_first_frame.destroy()
+        self.tictactoe.who_plays_first(0)
 
-    def computerPlaysFirst(self):
-        self.whoPlaysFirstFrame.grid_forget()
-        self.whoPlaysFirstFrame.destroy()
-        self.tictactoe.whoPlaysFirst(1)
+    def _computer_plays_first(self):
+        self._who_plays_first_frame.grid_forget()
+        self._who_plays_first_frame.destroy()
+        self.tictactoe.who_plays_first(1)
 
-    def displayXorOScreen(self):
-        self.whoPlaysWhatFrame = Frame(self.root)
-        self.whoPlaysWhatFrame.grid(row=0)
+    def display_x_or_o_screen(self):
+        self._who_plays_what_frame = Frame(self.root)
+        self._who_plays_what_frame.grid(row=0)
 
-        Label(self.whoPlaysWhatFrame, text="Tic-Tac-Toe", font="bold 24").grid(
-            row=0, columnspan=2
-        )
+        Label(
+            self._who_plays_what_frame, text="Tic-Tac-Toe", font="bold 24"
+        ).grid(row=0, columnspan=2)
 
-        Label(self.whoPlaysWhatFrame, text="Do you want to play X or O?").grid(
-            row=1, columnspan=2
-        )
+        Label(
+            self._who_plays_what_frame, text="Do you want to play X or O?"
+        ).grid(row=1, columnspan=2)
 
-        Button(self.whoPlaysWhatFrame, text="X", command=self.playerPlaysX).grid(
-            row=2, column=0
-        )
-        Button(self.whoPlaysWhatFrame, text="O", command=self.playerPlaysO).grid(
-            row=2, column=1
-        )
+        Button(
+            self._who_plays_what_frame, text="X", command=self._player_plays_x
+        ).grid(row=2, column=0)
+        Button(
+            self._who_plays_what_frame, text="O", command=self._player_plays_o
+        ).grid(row=2, column=1)
 
-    def playerPlaysX(self):
-        self.whoPlaysWhatFrame.grid_forget()
-        self.whoPlaysWhatFrame.destroy()
-        self.tictactoe.whoPlaysWhat(0)
+    def _player_plays_x(self):
+        self._who_plays_what_frame.grid_forget()
+        self._who_plays_what_frame.destroy()
+        self.tictactoe.who_plays_what(0)
 
-    def playerPlaysO(self):
-        self.whoPlaysWhatFrame.grid_forget()
-        self.whoPlaysWhatFrame.destroy()
-        self.tictactoe.whoPlaysWhat(1)
+    def _player_plays_o(self):
+        self._who_plays_what_frame.grid_forget()
+        self._who_plays_what_frame.destroy()
+        self.tictactoe.who_plays_what(1)
 
-    def displayGameBoard(self):
+    def display_game_board(self):
 
-        self.movesLetters = [
+        self._moves_letters = [
             StringVar(),
             StringVar(),
             StringVar(),
@@ -80,64 +82,78 @@ class TicTacToeGUI:
             StringVar(),
             StringVar(),
         ]
-        self.subtextString = StringVar()
+        self._subtext_string = StringVar()
 
-        self.movesLabels = [None, None, None, None, None, None, None, None, None]
+        self._moves_labels = [
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+        ]
 
-        self.gameBoardFrame = Frame(self.root)
-        self.gameBoardFrame.grid(row=0)
+        self._game_board_frame = Frame(self.root)
+        self._game_board_frame.grid(row=0)
 
-        Label(self.gameBoardFrame, text="Tic-Tac-Toe", font="bold 24").grid(
+        Label(self._game_board_frame, text="Tic-Tac-Toe", font="bold 24").grid(
             row=0, columnspan=3
         )
 
         for x in range(0, 9):
-            self.movesLabels[x] = Label(
-                self.gameBoardFrame,
-                textvariable=self.movesLetters[x],
+            self._moves_labels[x] = Label(
+                self._game_board_frame,
+                textvariable=self._moves_letters[x],
                 font="bold 16",
                 bg="#DDDDDD",
                 width=4,
                 height=2,
             )
-            self.movesLabels[x].grid(row=(x // 3) + 1, column=x % 3, padx=4, pady=3)
-            self.movesLabels[x].bind("<Button-1>", self.playerMove)
+            self._moves_labels[x].grid(
+                row=(x // 3) + 1, column=x % 3, padx=4, pady=3
+            )
+            self._moves_labels[x].bind("<Button-1>", self._player_move)
 
         self.subtextLabel = Label(
-            self.gameBoardFrame, textvariable=self.subtextString
+            self._game_board_frame, textvariable=self._subtext_string
         ).grid(row=4, columnspan=3)
 
-        self.subtextString.set("Game in Progress...")
+        self._subtext_string.set("Game in Progress...")
 
         return
 
-    def displayMove(self, move, letter, isGameOver=False, whoWon=0):
-        self.movesLetters[move].set(letter)
+    def display_move(self, move, letter, isGameOver=False, whoWon=0):
+        self._moves_letters[move].set(letter)
 
         if isGameOver:
             if whoWon == 2:
-                self.subtextString.set("Game Over! You Win! Well Played!")
+                self._subtext_string.set("Game Over! You Win! Well Played!")
             elif whoWon == 1:
-                self.subtextString.set("Game Over! You Lose!")
+                self._subtext_string.set("Game Over! You Lose!")
             else:
-                self.subtextString.set("Game Over! Draw! Well Played!")
+                self._subtext_string.set("Game Over! Draw! Well Played!")
 
-            self.newGameButtonFrame = Frame(self.gameBoardFrame)
-            self.newGameButton = Button(
-                self.newGameButtonFrame, text="New Game", command=self.newGame
+            self._new_game_button_frame = Frame(self._game_board_frame)
+            self._new_game_button = Button(
+                self._new_game_button_frame,
+                text="New Game",
+                command=self._new_game,
             ).grid(row=0)
-            self.newGameButtonFrame.grid(row=5, columnspan=3)
+            self._new_game_button_frame.grid(row=5, columnspan=3)
 
         return
 
-    def newGame(self):
-        self.gameBoardFrame.grid_forget()
-        self.gameBoardFrame.destroy()
-        self.tictactoe.newGame()
+    def _new_game(self):
+        self._game_board_frame.grid_forget()
+        self._game_board_frame.destroy()
+        self.tictactoe.new_game()
         return
 
-    def playerMove(self, event):
+    def _player_move(self, event):
         for x in range(0, 9):
-            if event.widget == self.movesLabels[x]:
-                self.tictactoe.playerMove(x)
+            if event.widget == self._moves_labels[x]:
+                self.tictactoe.player_move(x)
         return
