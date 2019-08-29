@@ -3,11 +3,11 @@ from tkinter import *
 
 class TicTacToeGUI:
     def __init__(self, tictactoe, root):
-        self.tictactoe = tictactoe
-        self.root = root
+        self._tictactoe = tictactoe
+        self._root = root
 
     def display_who_plays_first_screen(self):
-        self._who_plays_first_frame = Frame(self.root)
+        self._who_plays_first_frame = Frame(self._root)
         self._who_plays_first_frame.grid(row=0)
 
         Label(
@@ -33,15 +33,15 @@ class TicTacToeGUI:
     def _player_plays_first(self):
         self._who_plays_first_frame.grid_forget()
         self._who_plays_first_frame.destroy()
-        self.tictactoe.who_plays_first(0)
+        self._tictactoe.who_plays_first(0)
 
     def _computer_plays_first(self):
         self._who_plays_first_frame.grid_forget()
         self._who_plays_first_frame.destroy()
-        self.tictactoe.who_plays_first(1)
+        self._tictactoe.who_plays_first(1)
 
     def display_x_or_o_screen(self):
-        self._who_plays_what_frame = Frame(self.root)
+        self._who_plays_what_frame = Frame(self._root)
         self._who_plays_what_frame.grid(row=0)
 
         Label(
@@ -62,12 +62,12 @@ class TicTacToeGUI:
     def _player_plays_x(self):
         self._who_plays_what_frame.grid_forget()
         self._who_plays_what_frame.destroy()
-        self.tictactoe.who_plays_what(0)
+        self._tictactoe.who_plays_what(0)
 
     def _player_plays_o(self):
         self._who_plays_what_frame.grid_forget()
         self._who_plays_what_frame.destroy()
-        self.tictactoe.who_plays_what(1)
+        self._tictactoe.who_plays_what(1)
 
     def display_game_board(self):
 
@@ -96,7 +96,7 @@ class TicTacToeGUI:
             None,
         ]
 
-        self._game_board_frame = Frame(self.root)
+        self._game_board_frame = Frame(self._root)
         self._game_board_frame.grid(row=0)
 
         Label(self._game_board_frame, text="Tic-Tac-Toe", font="bold 24").grid(
@@ -149,11 +149,11 @@ class TicTacToeGUI:
     def _new_game(self):
         self._game_board_frame.grid_forget()
         self._game_board_frame.destroy()
-        self.tictactoe.new_game()
+        self._tictactoe.new_game()
         return
 
     def _player_move(self, event):
         for x in range(0, 9):
             if event.widget == self._moves_labels[x]:
-                self.tictactoe.player_move(x)
+                self._tictactoe.player_move(x)
         return
