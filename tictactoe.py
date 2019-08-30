@@ -257,12 +257,12 @@ class TicTacToe:
         return
 
     def _game_on(self):
-        possible_moves = [1] * (9 - self._move_number)
-        n = 0
+        possible_moves = []
+
         for x in range(0, 9):
             if self._moves[x] is None:
-                possible_moves[n] = x
-                n += 1
+                possible_moves.append(x)
+
         return random.choice(possible_moves)
 
 
