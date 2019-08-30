@@ -3,6 +3,9 @@ import random
 
 
 class TicTacToe:
+    COMPUTER = 1
+    PLAYER = 2
+
     def __init__(self, root):
         self._gui = TicTacToeGUI(self, root)
         self.new_game()
@@ -12,6 +15,7 @@ class TicTacToe:
         self._game_over = False
         self._move_number = 0
         self._player_last_move = None
+        self._computer_last_move = None
 
         self._moves = [None for _ in range(9)]
 
@@ -30,11 +34,12 @@ class TicTacToe:
             self._player_letter = "O"
 
         self._gui.display_game_board()
-        if self._plays_first == 1:
-            move = self._make_a_move()
-            self._moves[move] = self._computer_letter
+        if self._plays_first == self.COMPUTER:
+            computer_move = self._make_a_move()
+            self._computer_last_move = computer_move
+            self._moves[computer_move] = self._computer_letter
             self._move_number += 1
-            self._gui.display_move(move, self._computer_letter)
+            self._gui.display_move(computer_move, self._computer_letter)
 
     def player_move(self, player_move):
         if self._game_over:
@@ -44,30 +49,35 @@ class TicTacToe:
         self._player_last_move = player_move
         self._moves[player_move] = self._player_letter
         self._move_number += 1
-        if not self._is_game_over(player_move, 0):
+        if not self._is_game_over(player_move, self.PLAYER):
             self._gui.display_move(player_move, self._player_letter)
-            computerMove = self._make_a_move()
-            self._moves[computerMove] = self._computer_letter
+            computer_move = self._make_a_move()
+            self._computer_last_move = computer_move
+            self._moves[computer_move] = self._computer_letter
             self._move_number += 1
-            if not self._is_game_over(computerMove, 1):
-                self._gui.display_move(computerMove, self._computer_letter)
+            if not self._is_game_over(computer_move, self.COMPUTER):
+                self._gui.display_move(computer_move, self._computer_letter)
 
     def _is_game_over(self, move, who):
         if self._has_player_won():
             self._game_over = True
-            self._gui.display_move(move, self._player_letter, True, 2)
+            self._gui.display_move(
+                move, self._player_letter, True, self.PLAYER
+            )
             return True
         elif self._has_computer_won():
             self._game_over = True
-            self._gui.display_move(move, self._computer_letter, True, 1)
+            self._gui.display_move(
+                move, self._computer_letter, True, self.COMPUTER
+            )
             return True
         elif self._move_number == 9:
             self._game_over = True
-            if who == 0:
+            if who == self.PLAYER:
                 letter = self._player_letter
             else:
                 letter = self._computer_letter
-            self._gui.display_move(move, letter, True, 0)
+            self._gui.display_move(move, letter, True)
             return True
         else:
             return False
@@ -105,25 +115,25 @@ class TicTacToe:
 
     def _make_a_move(self):
         if self._move_number > 2:
-            move = self._is_computer_winning()
-            if move is not None:
-                return move
+            computer_move = self._is_computer_winning()
+            if computer_move is not None:
+                return computer_move
 
-        move = self._precaution()
+        computer_move = self._precaution()
 
-        if move is None:
-            move = self._game_on()
+        if computer_move is None:
+            computer_move = self._game_on()
 
-        return move
+        return computer_move
 
     def _is_computer_winning(self):
-        return self._is_winning(1)
+        return self._is_winning(self.COMPUTER)
 
     def is_player_winning(self):
-        return self._is_winning(0)
+        return self._is_winning(self.PLAYER)
 
     def _is_winning(self, who):
-        if who == 0:
+        if who == self.PLAYER:
             letter = self._player_letter
         else:
             letter = self._computer_letter
@@ -186,19 +196,35 @@ class TicTacToe:
 
     def _precaution(self):
         if self._move_number == 0:
-            move = random.choice([0, 2, 6, 8, 4])
-            return move
+            computer_move = random.choice([0, 2, 6, 8, 4])
+            return computer_move
 
         if self._move_number > 2:
-            move = self.is_player_winning()
-            if move is not None:
-                return move
+            computer_move = self.is_player_winning()
+            if computer_move is not None:
+                return computer_move
 
         if self._move_number == 1:
             if self._player_last_move == 4:
                 return random.choice([0, 2, 6, 8])
             else:
                 return 4
+
+        if self._move_number == 2:
+            if self._player_last_move == 4 and self._computer_last_move in (
+                0,
+                2,
+                6,
+                8,
+            ):
+                if self._computer_last_move == 0:
+                    return random.choice([1, 3])
+                if self._computer_last_move == 2:
+                    return random.choice([1, 5])
+                if self._computer_last_move == 6:
+                    return random.choice([3, 7])
+                if self._computer_last_move == 8:
+                    return random.choice([5, 7])
 
         if self._move_number == 3:
             if self._moves[
