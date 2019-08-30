@@ -218,13 +218,13 @@ class TicTacToe:
                 8,
             ):
                 if self._computer_last_move == 0:
-                    return random.choice([1, 3])
+                    return random.choice([1, 2, 3, 6])
                 if self._computer_last_move == 2:
-                    return random.choice([1, 5])
+                    return random.choice([0, 1, 5, 8])
                 if self._computer_last_move == 6:
-                    return random.choice([3, 7])
+                    return random.choice([0, 3, 7, 8])
                 if self._computer_last_move == 8:
-                    return random.choice([5, 7])
+                    return random.choice([2, 5, 6, 7])
 
         if self._move_number == 3:
             if self._moves[
