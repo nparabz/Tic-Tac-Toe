@@ -71,30 +71,10 @@ class TicTacToeGUI:
 
     def display_game_board(self):
 
-        self._moves_letters = [
-            StringVar(),
-            StringVar(),
-            StringVar(),
-            StringVar(),
-            StringVar(),
-            StringVar(),
-            StringVar(),
-            StringVar(),
-            StringVar(),
-        ]
+        self._moves_letters = [StringVar() for _ in range(9)]
         self._subtext_string = StringVar()
 
-        self._moves_labels = [
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-        ]
+        self._moves_labels = [None for _ in range(9)]
 
         self._game_board_frame = Frame(self._root)
         self._game_board_frame.grid(row=0)

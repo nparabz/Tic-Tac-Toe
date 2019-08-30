@@ -13,7 +13,7 @@ class TicTacToe:
         self._move_number = 0
         self._player_last_move = None
 
-        self._moves = [None, None, None, None, None, None, None, None, None]
+        self._moves = [None for _ in range(9)]
 
         self._gui.display_who_plays_first_screen()
 
