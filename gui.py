@@ -33,12 +33,12 @@ class TicTacToeGUI:
     def _player_plays_first(self):
         self._who_plays_first_frame.grid_forget()
         self._who_plays_first_frame.destroy()
-        self._tictactoe.who_plays_first(0)
+        self._tictactoe.who_plays_first(self._tictactoe.PLAYER)
 
     def _computer_plays_first(self):
         self._who_plays_first_frame.grid_forget()
         self._who_plays_first_frame.destroy()
-        self._tictactoe.who_plays_first(1)
+        self._tictactoe.who_plays_first(self._tictactoe.COMPUTER)
 
     def display_x_or_o_screen(self):
         self._who_plays_what_frame = Frame(self._root)
@@ -97,7 +97,7 @@ class TicTacToeGUI:
             )
             self._moves_labels[x].bind("<Button-1>", self._player_move)
 
-        self.subtextLabel = Label(
+        self.subtext_label = Label(
             self._game_board_frame, textvariable=self._subtext_string
         ).grid(row=4, columnspan=3)
 
@@ -105,13 +105,13 @@ class TicTacToeGUI:
 
         return
 
-    def display_move(self, move, letter, isGameOver=False, whoWon=0):
+    def display_move(self, move, letter, is_game_over=False, who_won=0):
         self._moves_letters[move].set(letter)
 
-        if isGameOver:
-            if whoWon == 2:
+        if is_game_over:
+            if who_won == self._tictactoe.PLAYER:
                 self._subtext_string.set("Game Over! You Win! Well Played!")
-            elif whoWon == 1:
+            elif who_won == self._tictactoe.COMPUTER:
                 self._subtext_string.set("Game Over! You Lose!")
             else:
                 self._subtext_string.set("Game Over! Draw! Well Played!")
