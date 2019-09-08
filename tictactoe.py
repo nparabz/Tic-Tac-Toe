@@ -211,6 +211,27 @@ class TicTacToe:
                 return 4
 
         if self._move_number == 2:
+            if self._computer_last_move == 0 and self._player_last_move in (
+                1,
+                3,
+            ):
+                return 4
+            if self._computer_last_move == 2 and self._player_last_move in (
+                1,
+                5,
+            ):
+                return 4
+            if self._computer_last_move == 6 and self._player_last_move in (
+                3,
+                7,
+            ):
+                return 4
+            if self._computer_last_move == 8 and self._player_last_move in (
+                5,
+                7,
+            ):
+                return 4
+
             if self._player_last_move == 4 and self._computer_last_move in (
                 0,
                 2,
